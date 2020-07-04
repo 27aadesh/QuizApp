@@ -1,0 +1,8 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.ui.container.marginLeft {
+  margin-left: 150px !important;
+}

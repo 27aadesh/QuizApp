@@ -1,1 +1,0 @@
-{"version":3,"sources":["styles.css"],"names":[],"mappings":"AAAA,KACE,sBAAuB,CACvB,iBACF,CAEA,yBACE,2BACF","file":"main.fad707e9.chunk.css","sourcesContent":[".App {\n  font-family: sans-serif;\n  text-align: center;\n}\n\n.ui.container.marginLeft {\n  margin-left: 150px !important;\n}\n"]}

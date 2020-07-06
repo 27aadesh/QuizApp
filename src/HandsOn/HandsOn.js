@@ -8,6 +8,7 @@ import {
   Divider,
   Menu,
   Input,
+  Embed,
 } from "semantic-ui-react";
 import styles from "../styles.css";
 

@@ -2,11 +2,13 @@ import React from "react";
 
 import { Component } from "react";
 import { Card, Button } from "semantic-ui-react";
-import { Link } from "react-router-dom";
+import { Link, useRouteMatch, Switch, Route } from "react-router-dom";
+import CoursePage from './../CoursePage/CoursePage';
 
-class InProgressCoursecard extends Component {
-  render() {
-    return (
+function InProgressCoursecard() {
+  let match = useRouteMatch();
+  return (
+    <>
       <Card fluid>
         <Card.Content>
           <Card.Header>Docker</Card.Header>
@@ -22,15 +24,16 @@ class InProgressCoursecard extends Component {
             In Progress
           </Button>
 
-          <Link to="/course/id">
-            <Button attached="right" positive >
-              Resume Course
+          <Link to="/course/4455">
+            <Button attached="right" positive>
+              Resume Quiz
             </Button>
           </Link>
         </Card.Content>
       </Card>
-    );
-  }
+     
+    </>
+  );
 }
 
 export default InProgressCoursecard;

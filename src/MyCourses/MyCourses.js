@@ -28,7 +28,7 @@ class MyCourses extends Component {
   render() {
     return (
       <Segment basic className="ui container marginLeft">
-        <Header as="h1">My Courses</Header>
+        <Header as="h1">My Quizes</Header>
         <Tab className="ui left floated image" panes={panes} />
       </Segment>
     );

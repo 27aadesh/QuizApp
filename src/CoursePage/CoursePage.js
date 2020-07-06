@@ -20,7 +20,7 @@ class CoursePage extends Component {
       <Segment basic className="ui container marginLeft">
         <Segment>
           <h1>Docker - Basics</h1>
-
+          <h1>{this.props.courseid}</h1>
           <Statistic size="mini">
             <Statistic.Value>150 Miles</Statistic.Value>
           </Statistic>
@@ -46,8 +46,8 @@ class CoursePage extends Component {
             PageMaker including versions of Lorem Ipsum.
           </p>
         </Segment>
-        <Link to="/quiz/quizid">
-          <Button positive attached="bottom">
+        <Link to={`/quiz/${this.props.courseid}/4454`}>
+          <Button size="big" positive attached="bottom">
             Take Quiz
           </Button>
         </Link>

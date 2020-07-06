@@ -21,7 +21,7 @@ class AvailableCourses extends Component {
       <Segment basic className="ui container marginLeft">
         <Menu secondary>
           <Menu.Item>
-            <Header as="h1">Explore Courses</Header>
+            <Header as="h1">Explore Quizes</Header>
           </Menu.Item>
 
           <Menu.Menu position="right">

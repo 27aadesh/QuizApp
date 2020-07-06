@@ -4,15 +4,21 @@ import { Component } from "react";
 import { Card, Button } from "semantic-ui-react";
 import styles from "../styles.css";
 class QuizAnswercard extends Component {
+  state = {};
+  handleClick = () =>
+    this.setState((prevState) => ({ active: !prevState.active }));
   render() {
+    const { active } = this.state;
     return (
-      <Card fluid color="red">
-        <Card.Content>
-          <Card.Description>
-            Docker is containerization Platform
-          </Card.Description>
-        </Card.Content>
-      </Card>
+      <Button
+        toggle
+        active={active}
+        onClick={this.handleClick}
+        fluid
+        size="large"
+      >
+        <p>Docker is containerization Platform</p>
+      </Button>
     );
   }
 }

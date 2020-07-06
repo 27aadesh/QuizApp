@@ -1,75 +1,65 @@
 import React from "react";
 
 import { Component } from "react";
-import {
-  Segment,
-  Header,
-  Container,
-  Divider,
-  Card,
-  Icon,
-  Image,
-  Statistic,
-  Grid,
-  Button,
-  Pagination,
-} from "semantic-ui-react";
+import { Segment, Divider, Button, Progress } from "semantic-ui-react";
 import QuizAnswercard from "./QuizAnswerCard";
+import Answers from "./Answers";
+const questions = [
+  {
+    questionId: 1,
+    question:
+      "Docker containers and images are included in Plesk Backup and migrated by Plesk Migrator?",
+    options: ["Docker", "Kube", "Hello", "World"],
+  },
 
+  {
+    questionId: 2,
+    question: "included in Plesk Backup and migrated by Plesk Migrator?",
+    options: ["Docker1", "Kube1", "Hello1", "World1"],
+  },
+];
 class QuizPage extends Component {
+
+  constructor(props){
+    super(props);
+    this.state = {
+      currentQuestion: 0,
+      answeredQuestions: 0
+    }
+  }
+  
   render() {
     return (
       <Segment basic className="ui container marginLeft">
         <Segment attached raised>
           <h1>Docker Quiz</h1>
-          <Pagination
-            boundaryRange={20}
-            defaultActivePage={1}
-            ellipsisItem={null}
-            firstItem={null}
-            lastItem={null}
-            siblingRange={1}
-            totalPages={20}
-          />
-          <br />
-          <br />
-          <br />
-          <h2>
-            Docker containers and images are included in Plesk Backup and
-            migrated by Plesk Migrator?
-          </h2>
-          <br />
-          <br />
-          <Grid columns={2}>
-            <Grid.Row>
-              <Grid.Column>
-                <QuizAnswercard />
-              </Grid.Column>
-              <Grid.Column>
-                <QuizAnswercard />
-              </Grid.Column>
-            </Grid.Row>
+          <Divider />
+          <br></br>
 
-            <Grid.Row>
-              <Grid.Column>
-                <QuizAnswercard />
-              </Grid.Column>
-              <Grid.Column>
-                <QuizAnswercard />
-              </Grid.Column>
-            </Grid.Row>
-          </Grid>
+          <Progress
+            color="yellow"
+            active
+            value="3"
+            total="20"
+            progress="ratio"
+          />
+
+          <Answers />
           <br />
           <br />
           <br />
-          <br />
+
+          <Progress size="tiny" color="green" value="0" total="20" />
         </Segment>
         <Button.Group attached="bottom">
-          <Button attached positive>
-            Submit Quiz
-          </Button>
+          <Button attached>Previous Question</Button>
           <Button attached>Next Question</Button>
         </Button.Group>
+        <Segment stacked>
+          <Button positive fluid>
+            Submit Quiz
+          </Button>
+        </Segment>
       </Segment>
     );
   }

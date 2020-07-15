@@ -10,6 +10,8 @@ import {
   Input,
 } from "semantic-ui-react";
 import styles from "../styles.css";
+import ImageCarousel from "../CarouselProvider/ImageCarousel";
+import ExploreCategories from "../Explore/ExploreCategories";
 
 class Home extends Component {
   render() {
@@ -17,6 +19,9 @@ class Home extends Component {
       <Segment basic className="ui container marginLeft">
         <Header as="h1">Home</Header>
         <Divider />
+
+        <ImageCarousel />
+        
       </Segment>
     );
   }

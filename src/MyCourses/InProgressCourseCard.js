@@ -3,7 +3,7 @@ import React from "react";
 import { Component } from "react";
 import { Card, Button } from "semantic-ui-react";
 import { Link, useRouteMatch, Switch, Route } from "react-router-dom";
-import CoursePage from './../CoursePage/CoursePage';
+
 
 function InProgressCoursecard() {
   let match = useRouteMatch();

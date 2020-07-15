@@ -8,24 +8,27 @@ import {
   useRouteMatch,
   Redirect,
 } from "react-router-dom";
-import AvailableCourses from "../Explore/AvailableCourses";
+
 import MyProfile from "../MyProfile/MyProfile";
 import MyCourses from "../MyCourses/MyCourses";
-import CoursePage from "../CoursePage/CoursePage";
-import QuizPage from "../QuizPage/QuizPage";
+
+
 import HandsOn from "../HandsOn/HandsOn";
 import Home from "../Home/Home";
 
 import Auth from "../Auth/Auth";
 import { render } from "react-dom";
 import NotFound from "../NotFound/NotFound";
+import ExploreCategories from "../Explore/ExploreCategories";
+import CategoryPage from "../Explore/CategoryPage";
+import QuizDetailPage from "../QuizDetailPage/QuizDetailPage";
+import QuizPage from './../QuizPage/QuizPage';
 
 function Dashboard(props) {
   let match = useRouteMatch();
 
   return (
     <Router>
-      
       <Sidebar
         as={Menu}
         icon="labeled"
@@ -46,7 +49,7 @@ function Dashboard(props) {
         <Link to="/myquizes">
           <Menu.Item as="a">
             <Icon name="book" />
-            My Courses
+            My Quizes
           </Menu.Item>
         </Link>
         <Link to="/explore">
@@ -78,20 +81,25 @@ function Dashboard(props) {
             <MyCourses />
           </Route>
           <Route path="/explore">
-            <AvailableCourses />
+            <ExploreCategories />
           </Route>
           <Route path="/myprofile">
             <MyProfile />
           </Route>
+         
           <Route
-            path="/course/:courseid"
-            render={(props) => <CoursePage {...props.match.params} />}
+            path="/category/:categoryId"
+            render={(props) => <CategoryPage {...props.match.params} />}
           ></Route>
           <Route path="/handson">
             <HandsOn />
           </Route>
           <Route
-            path="/quiz/:courseid/:quizid"
+            path="/quizdetails/:categoryId/:quizId"
+            render={(props) => <QuizDetailPage {...props.match.params} />}
+          />
+          <Route
+            path="/quiz/:categoryId/:quizId"
             render={(props) => <QuizPage {...props.match.params} />}
           />
 

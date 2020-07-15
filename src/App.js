@@ -8,13 +8,7 @@ import {
   Link,
   Redirect,
 } from "react-router-dom";
-import AvailableCourses from "./Explore/AvailableCourses";
-import MyProfile from "./MyProfile/MyProfile";
-import MyCourses from "./MyCourses/MyCourses";
-import CoursePage from "./CoursePage/CoursePage";
-import QuizPage from "./QuizPage/QuizPage";
-import HandsOn from "./HandsOn/HandsOn";
-import Home from "./Home/Home";
+
 
 import Auth from "./Auth/Auth";
 import { render } from "react-dom";
@@ -26,7 +20,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: {},
+      user: null,
     };
   }
 

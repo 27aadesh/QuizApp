@@ -53,7 +53,7 @@ class ResultPage extends Component {
           <Grid.Column style={{ maxWidth: 350 }}>
             <Card fluid>
               <Image
-                src="https://firebasestorage.googleapis.com/v0/b/quiz-app-ed006.appspot.com/o/Award-Ribbon-Badge-Transparent-Background.png?alt=media&token=98534892-9c32-4cee-969e-941f4615d8ae"
+                src="https://firebasestorage.googleapis.com/v0/b/quiz-app-ed006.appspot.com/o/Award-Ribbon-Badge-Transparent-Background.jpg?alt=media&token=d7d3e436-ebc3-4ec3-add9-d983dd28a7e3"
                 wrapped
                 ui={false}
               />

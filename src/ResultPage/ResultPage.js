@@ -46,21 +46,31 @@ class ResultPage extends Component {
     return (
       <>
         <Grid
-          textAlign="center"
-          style={{ height: "100vh" }}
           verticalAlign="middle"
+          stackable
+          columns={2}
+          style={{
+            padding: 50,
+            margin: "auto",
+            //width: "50%",
+          }}
         >
-          <Grid.Column style={{ maxWidth: 350 }}>
-            <Card fluid>
+          <Grid.Column>
+            <Card fluid color="black">
               <Image
+                size="medium"
+                centered
                 src="https://firebasestorage.googleapis.com/v0/b/quiz-app-ed006.appspot.com/o/Award-Ribbon-Badge-Transparent-Background.jpg?alt=media&token=d7d3e436-ebc3-4ec3-add9-d983dd28a7e3"
                 wrapped
-                ui={false}
               />
 
-              <Card.Content textAlign="center">
+              <Card.Content textAlign="center" style={{ color: "black" }}>
                 <h4>This Badge is awarded to</h4>
-                <h1>Aadesh Jain</h1>
+                <Divider />
+                <h1 style={{ fontFamily: "Parisienne", fontSize: 40 }}>
+                  Aadesh Jain
+                </h1>
+                <Divider />
                 <p>
                   On scoring 7 out of 10 in <b>Intestallar Git</b> Quiz on 10th
                   July 2020
@@ -69,12 +79,41 @@ class ResultPage extends Component {
 
               <Card.Content extra>
                 <a>
-                  <Icon name="user" />
-                  10 Friends
+                  <Icon name="copyright" />
+                  Quizzy.com
                 </a>
               </Card.Content>
             </Card>
-            <Button onClick={this.download}>Download Pdf</Button>
+          </Grid.Column>
+          <Grid.Column>
+            <Grid.Row style={{ margin: 3 }}>
+              <Button onClick={this.download}>Download Pdf</Button>
+            </Grid.Row>
+            <Grid.Row style={{ margin: 3 }}>
+              <Button color="facebook">
+                <Icon name="facebook" /> Facebook
+              </Button>
+            </Grid.Row>
+            <Grid.Row style={{ margin: 3 }}>
+              <Button color="twitter">
+                <Icon name="twitter" /> Twitter
+              </Button>
+            </Grid.Row>
+            <Grid.Row style={{ margin: 3 }}>
+              <Button color="google plus">
+                <Icon name="google plus" /> Google Plus
+              </Button>
+            </Grid.Row>
+            <Grid.Row style={{ margin: 3 }}>
+              <Button color="linkedin">
+                <Icon name="linkedin" /> LinkedIn
+              </Button>
+            </Grid.Row>
+            <Grid.Row style={{ margin: 3 }}>
+              <Button color="instagram">
+                <Icon name="instagram" /> Instagram
+              </Button>
+            </Grid.Row>
           </Grid.Column>
         </Grid>
       </>

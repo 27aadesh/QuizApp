@@ -65,7 +65,7 @@ class QuizDetailPage extends Component {
       .firestore()
       .collection("userData")
       .doc(user.uid)
-      .collection("enrolledCourses")
+      .collection("enrolledQuizzes")
       .doc(this.props.quizId)
       .onSnapshot((doc) => {
         if (typeof doc.data() !== "undefined") {
@@ -90,7 +90,7 @@ class QuizDetailPage extends Component {
       .firestore()
       .collection("userData")
       .doc(user.uid)
-      .collection("enrolledCourses")
+      .collection("enrolledQuizzes")
       .doc(this.state.quiz.id)
       .set({
         quizName: this.state.quiz.quizName,

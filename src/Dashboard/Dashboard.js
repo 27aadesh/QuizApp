@@ -12,7 +12,6 @@ import {
 import MyProfile from "../MyProfile/MyProfile";
 import MyCourses from "../MyCourses/MyCourses";
 
-
 import HandsOn from "../HandsOn/HandsOn";
 import Home from "../Home/Home";
 
@@ -22,7 +21,8 @@ import NotFound from "../NotFound/NotFound";
 import ExploreCategories from "../Explore/ExploreCategories";
 import CategoryPage from "../Explore/CategoryPage";
 import QuizDetailPage from "../QuizDetailPage/QuizDetailPage";
-import QuizPage from './../QuizPage/QuizPage';
+import QuizPage from "./../QuizPage/QuizPage";
+import ResultPage from "./../ResultPage/ResultPage";
 
 function Dashboard(props) {
   let match = useRouteMatch();
@@ -86,7 +86,7 @@ function Dashboard(props) {
           <Route path="/myprofile">
             <MyProfile />
           </Route>
-         
+
           <Route
             path="/category/:categoryId"
             render={(props) => <CategoryPage {...props.match.params} />}
@@ -102,7 +102,10 @@ function Dashboard(props) {
             path="/quiz/:categoryId/:quizId"
             render={(props) => <QuizPage {...props.match.params} />}
           />
-
+          <Route
+            path="/result/:resultId"
+            render={(props) => <ResultPage {...props.match.params} />}
+          />
           <Route path="/notfound" exact={true} component={NotFound} />
           <Redirect from="*" to="/notfound" />
         </Switch>

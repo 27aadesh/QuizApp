@@ -9,12 +9,12 @@ import {
   Redirect,
 } from "react-router-dom";
 
-
 import Auth from "./Auth/Auth";
 import { render } from "react-dom";
 import Dashboard from "./Dashboard/Dashboard";
 
 import fire from "./Config/fire";
+import ResultPage from "./ResultPage/ResultPage";
 
 class App extends Component {
   constructor(props) {
@@ -40,7 +40,18 @@ class App extends Component {
     //this.setState({ user: "test" });
   }
   render() {
-    return <Router>{this.state.user ? <Dashboard /> : <Auth />}</Router>;
+    const regex = /\/result\/[\w]+.*$/;
+    return (
+      <Router>
+        {regex.test(window.location.pathname) ? (
+          <ResultPage />
+        ) : this.state.user ? (
+          <Dashboard />
+        ) : (
+          <Auth />
+        )}
+      </Router>
+    );
   }
 }
 

@@ -57,7 +57,7 @@ class ExploreCategories extends Component {
   render() {
     return this.state.categories ? (
       <Segment basic className="ui container marginLeft">
-        <Segment floated>
+        <Segment raised>
           <Header as="h1">Browse Categories</Header>
           <p>
             Looking for something specific? Pick a category that interests you
@@ -69,7 +69,7 @@ class ExploreCategories extends Component {
           <Grid columns="2" stackable>
             {this.state.categories.map((doc) => {
               return (
-                <Grid.Column>
+                <Grid.Column key={doc.id}>
                   <Link to={`/category/${doc.id}`}>
                     <CategoryCard
                       categoryName={doc.categoryName}

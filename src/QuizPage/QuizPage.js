@@ -9,9 +9,11 @@ import {
   Header,
   Grid,
   Container,
+  Loader,
 } from "semantic-ui-react";
 
 import fire from "../Config/fire";
+import { Link } from "react-router-dom";
 
 class QuizPage extends Component {
   constructor(props) {
@@ -28,7 +30,9 @@ class QuizPage extends Component {
     this.state = {
       currentQuestion: 0,
       answeredQuestions: 0,
+      quizNotFound: false,
       questions: null,
+      enrolled: true,
       answersSelected: {},
     };
   }
@@ -43,6 +47,30 @@ class QuizPage extends Component {
   }
   submitQuiz() {
     console.log(this.state.answersSelected);
+    let score = 0;
+    let status = "failed";
+    this.state.questions.forEach((q) => {
+      if (this.state.answersSelected[q.questionId] === q.answer) {
+        score = score + 1;
+      }
+    });
+    if (score > 0.8 * this.state.questions.length) {
+      status = "passed";
+    }
+    fire
+      .firestore()
+      .collection("results")
+      .add({
+        score: score,
+        status: status,
+      })
+      .then((doc) => {
+        window.location.pathname = `/result/${doc.id}`;
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+    console.log(score);
   }
   previousQuestion() {
     let c = this.state.currentQuestion;
@@ -55,6 +83,25 @@ class QuizPage extends Component {
 
   componentDidMount() {
     let questions = [];
+
+    fire
+      .firestore()
+      .collection("userData")
+      .doc(fire.auth().currentUser.uid)
+      .collection("enrolledQuizzes")
+      .doc(this.props.quizId)
+      .get()
+      .then((doc) => {
+        if (!doc.exists) {
+          this.setState({
+            enrolled: false,
+          });
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+
     fire
       .firestore()
       .collection("quizCategories")
@@ -64,19 +111,25 @@ class QuizPage extends Component {
       .collection("questions")
       .get()
       .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          questions.push({
-            questionId: doc.id,
-            question: doc.data().question,
-            A: doc.data().A,
-            B: doc.data().B,
-            C: doc.data().C,
-            D: doc.data().D,
-            answer: doc.data().answer,
+        if (querySnapshot.empty) {
+          this.setState({
+            quizNotFound: true,
           });
+        } else {
+          querySnapshot.forEach((doc) => {
+            questions.push({
+              questionId: doc.id,
+              question: doc.data().question,
+              A: doc.data().A,
+              B: doc.data().B,
+              C: doc.data().C,
+              D: doc.data().D,
+              answer: doc.data().answer,
+            });
 
-          this.setState({ questions });
-        });
+            this.setState({ questions });
+          });
+        }
       })
       .catch((e) => {
         console.log(e);
@@ -110,132 +163,168 @@ class QuizPage extends Component {
     let answersSelected = this.state.answersSelected;
     answersSelected[questionId] = optionSelected;
 
-    console.log(answersSelected[questionId]);
     this.setState({
       answersSelected,
     });
   }
   render() {
-    return this.state.questions ? (
-      <Segment basic className="ui container marginLeft">
-        <Segment attached raised>
-          <h1>You are Monitored by a Bot.</h1>
-          <Divider />
-          <br></br>
+    return this.state.enrolled ? (
+      this.state.questions ? (
+        <Segment basic className="ui container marginLeft">
+          <Segment attached raised>
+            <h1>You are Monitored by a Bot.</h1>
+            <Divider />
+            <br></br>
 
-          <Progress
-            color="yellow"
-            active
-            value={this.state.currentQuestion + 1}
-            total={this.state.questions.length}
-            progress="ratio"
-          />
+            <Progress
+              color="yellow"
+              active
+              value={this.state.currentQuestion + 1}
+              total={this.state.questions.length}
+              progress="ratio"
+            />
 
-          <h2>{this.state.questions[this.state.currentQuestion].question}</h2>
+            <h2>{this.state.questions[this.state.currentQuestion].question}</h2>
 
-          <br />
-          <Grid columns={2}>
-            <Grid.Column>
-              <Segment
-                style={{ padding: 20 }}
-                raised
-                color="red"
-                inverted={
-                  this.state.answersSelected[
-                    this.state.questions[this.state.currentQuestion].questionId
-                  ] == "A"
-                    ? true
-                    : false
-                }
-                onClick={this.handleFirstButton}
-              >
-                <Header as="h4">
-                  {this.state.questions[this.state.currentQuestion].A}
-                </Header>
-              </Segment>
-            </Grid.Column>
-            <Grid.Column>
-              <Segment
-                style={{ padding: 20 }}
-                raised
-                color="red"
-                inverted={
-                  this.state.answersSelected[
-                    this.state.questions[this.state.currentQuestion].questionId
-                  ] == "B"
-                    ? true
-                    : false
-                }
-                onClick={this.handleSecondButton}
-              >
-                <Header as="h4">
-                  {this.state.questions[this.state.currentQuestion].B}
-                </Header>
-              </Segment>
-            </Grid.Column>
+            <br />
+            <Grid columns={2}>
+              <Grid.Column>
+                <Segment
+                  style={{ padding: 20 }}
+                  raised
+                  color="red"
+                  inverted={
+                    this.state.answersSelected[
+                      this.state.questions[this.state.currentQuestion]
+                        .questionId
+                    ] == "A"
+                      ? true
+                      : false
+                  }
+                  onClick={this.handleFirstButton}
+                >
+                  <Header as="h4">
+                    {this.state.questions[this.state.currentQuestion].A}
+                  </Header>
+                </Segment>
+              </Grid.Column>
+              <Grid.Column>
+                <Segment
+                  style={{ padding: 20 }}
+                  raised
+                  color="red"
+                  inverted={
+                    this.state.answersSelected[
+                      this.state.questions[this.state.currentQuestion]
+                        .questionId
+                    ] == "B"
+                      ? true
+                      : false
+                  }
+                  onClick={this.handleSecondButton}
+                >
+                  <Header as="h4">
+                    {this.state.questions[this.state.currentQuestion].B}
+                  </Header>
+                </Segment>
+              </Grid.Column>
 
-            <Grid.Column>
-              <Segment
-                style={{ padding: 20 }}
-                raised
-                color="red"
-                inverted={
-                  this.state.answersSelected[
-                    this.state.questions[this.state.currentQuestion].questionId
-                  ] == "C"
-                    ? true
-                    : false
-                }
-                onClick={this.handleThirdButton}
-              >
-                <Header as="h4">
-                  {this.state.questions[this.state.currentQuestion].C}
-                </Header>
-              </Segment>
-            </Grid.Column>
-            <Grid.Column>
-              <Segment
-                style={{ padding: 20 }}
-                raised
-                color="red"
-                inverted={
-                  this.state.answersSelected[
-                    this.state.questions[this.state.currentQuestion].questionId
-                  ] == "D"
-                    ? true
-                    : false
-                }
-                onClick={this.handleFourthButton}
-              >
-                <Header as="h4">
-                  {this.state.questions[this.state.currentQuestion].D}
-                </Header>
-              </Segment>
+              <Grid.Column>
+                <Segment
+                  style={{ padding: 20 }}
+                  raised
+                  color="red"
+                  inverted={
+                    this.state.answersSelected[
+                      this.state.questions[this.state.currentQuestion]
+                        .questionId
+                    ] == "C"
+                      ? true
+                      : false
+                  }
+                  onClick={this.handleThirdButton}
+                >
+                  <Header as="h4">
+                    {this.state.questions[this.state.currentQuestion].C}
+                  </Header>
+                </Segment>
+              </Grid.Column>
+              <Grid.Column>
+                <Segment
+                  style={{ padding: 20 }}
+                  raised
+                  color="red"
+                  inverted={
+                    this.state.answersSelected[
+                      this.state.questions[this.state.currentQuestion]
+                        .questionId
+                    ] == "D"
+                      ? true
+                      : false
+                  }
+                  onClick={this.handleFourthButton}
+                >
+                  <Header as="h4">
+                    {this.state.questions[this.state.currentQuestion].D}
+                  </Header>
+                </Segment>
+              </Grid.Column>
+            </Grid>
+            <br />
+            <br />
+            <br />
+          </Segment>
+          <Button.Group attached="bottom">
+            <Button attached onClick={this.previousQuestion}>
+              Previous Question
+            </Button>
+            <Button attached onClick={this.nextQuestion}>
+              Next Question
+            </Button>
+          </Button.Group>
+          <Segment stacked>
+            <Button positive fluid onClick={this.submitQuiz}>
+              Submit Quiz
+            </Button>
+          </Segment>
+        </Segment>
+      ) : this.state.quizNotFound ? (
+        <Segment basic className="ui container marginLeft">
+          <Grid
+            textAlign="center"
+            style={{ height: "100vh" }}
+            verticalAlign="middle"
+          >
+            <Grid.Column style={{ maxWidth: 450 }}>
+              <h1>Quiz Not Found!</h1>
+              <Link to="/">
+                <Button positive> Go to Home </Button>
+              </Link>
             </Grid.Column>
           </Grid>
-          <br />
-          <br />
-          <br />
         </Segment>
-        <Button.Group attached="bottom">
-          <Button attached onClick={this.previousQuestion}>
-            Previous Question
-          </Button>
-          <Button attached onClick={this.nextQuestion}>
-            Next Question
-          </Button>
-        </Button.Group>
-        <Segment stacked>
-          <Button positive fluid onClick={this.submitQuiz}>
-            Submit Quiz
-          </Button>
+      ) : (
+        <Segment basic className="ui container marginLeft">
+          <Grid
+            textAlign="center"
+            style={{ height: "100vh" }}
+            verticalAlign="middle"
+          >
+            <Grid.Column style={{ maxWidth: 450 }}>
+              <h1>Loading Quiz...</h1>
+            </Grid.Column>
+          </Grid>
         </Segment>
-      </Segment>
+      )
     ) : (
       <Segment basic className="ui container marginLeft">
-        <Grid verticalAlign="middle">
-          <Grid.Column>
-            <Container textAlign="center">Loading Quiz...</Container>
+        <Grid
+          textAlign="center"
+          style={{ height: "100vh" }}
+          verticalAlign="middle"
+        >
+          <Grid.Column style={{ maxWidth: 450 }}>
+            <h1>Please enroll before starting the Quiz</h1>
           </Grid.Column>
         </Grid>
       </Segment>

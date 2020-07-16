@@ -13,7 +13,27 @@ import {
 } from "semantic-ui-react";
 import styles from "../styles.css";
 import fire from "./../Config/fire";
-import Certificate from "./Certificate";
+
+import {
+  EmailShareButton,
+  FacebookShareButton,
+  InstapaperShareButton,
+  LineShareButton,
+  LinkedinShareButton,
+  LivejournalShareButton,
+  MailruShareButton,
+  OKShareButton,
+  PinterestShareButton,
+  PocketShareButton,
+  RedditShareButton,
+  TelegramShareButton,
+  TumblrShareButton,
+  TwitterShareButton,
+  ViberShareButton,
+  VKShareButton,
+  WhatsappShareButton,
+  WorkplaceShareButton,
+} from "react-share";
 
 class ResultPage extends Component {
   constructor() {
@@ -90,29 +110,26 @@ class ResultPage extends Component {
               <Button onClick={this.download}>Download Pdf</Button>
             </Grid.Row>
             <Grid.Row style={{ margin: 3 }}>
-              <Button color="facebook">
-                <Icon name="facebook" /> Facebook
-              </Button>
+              <FacebookShareButton url={window.location.href}>
+                <Button color="facebook">
+                  <Icon name="facebook" /> Facebook
+                </Button>
+              </FacebookShareButton>
             </Grid.Row>
             <Grid.Row style={{ margin: 3 }}>
-              <Button color="twitter">
-                <Icon name="twitter" /> Twitter
-              </Button>
+              <TwitterShareButton url={window.location.href}>
+                <Button color="twitter">
+                  <Icon name="twitter" /> Twitter
+                </Button>
+              </TwitterShareButton>
             </Grid.Row>
+
             <Grid.Row style={{ margin: 3 }}>
-              <Button color="google plus">
-                <Icon name="google plus" /> Google Plus
-              </Button>
-            </Grid.Row>
-            <Grid.Row style={{ margin: 3 }}>
-              <Button color="linkedin">
-                <Icon name="linkedin" /> LinkedIn
-              </Button>
-            </Grid.Row>
-            <Grid.Row style={{ margin: 3 }}>
-              <Button color="instagram">
-                <Icon name="instagram" /> Instagram
-              </Button>
+              <LinkedinShareButton url={window.location.href}>
+                <Button color="linkedin">
+                  <Icon name="linkedin" /> LinkedIn
+                </Button>
+              </LinkedinShareButton>
             </Grid.Row>
           </Grid.Column>
         </Grid>

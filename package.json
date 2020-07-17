@@ -27,6 +27,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "CI= react-scripts build",
+    "build.azure": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },

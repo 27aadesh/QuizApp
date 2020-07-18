@@ -26,3 +26,15 @@ steps:
   inputs:
     targetType: 'inline'
     script: 'npm run build.azure'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(System.DefaultWorkingDirectory)/build'
+    Contents: '**'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'quizapp'
+    publishLocation: 'Container'

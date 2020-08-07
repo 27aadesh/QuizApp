@@ -34,6 +34,8 @@ class QuizPage extends Component {
       questions: null,
       enrolled: true,
       answersSelected: {},
+      quizName: "",
+      quizCredits: 0
     };
   }
 
@@ -46,6 +48,7 @@ class QuizPage extends Component {
     }
   }
   submitQuiz() {
+    var email = fire.auth().currentUser.email;
     console.log(this.state.answersSelected);
     let score = 0;
     let status = "failed";
@@ -54,8 +57,10 @@ class QuizPage extends Component {
         score = score + 1;
       }
     });
-    if (score > 0.8 * this.state.questions.length) {
+    if (score > 0.7 * this.state.questions.length) {
       status = "passed";
+    } else {
+      status = "failed";
     }
     fire
       .firestore()
@@ -63,6 +68,10 @@ class QuizPage extends Component {
       .add({
         score: score,
         status: status,
+        quizName: this.state.quizName,
+        quizCredits: this.state.quizCredits,
+        totalQuestions: this.state.questions.length,
+        displayEmail: email
       })
       .then((doc) => {
         window.location.pathname = `/result/${doc.id}`;
@@ -97,6 +106,23 @@ class QuizPage extends Component {
             enrolled: false,
           });
         }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+
+    fire
+      .firestore()
+      .collection("quizCategories")
+      .doc(this.props.categoryId)
+      .collection("quizzes")
+      .doc(this.props.quizId)
+      .get()
+      .then((doc) => {
+        this.setState({
+          quizName: doc.data().quizName,
+          quizCredits: doc.data().quizCredits,
+        });
       })
       .catch((e) => {
         console.log(e);
